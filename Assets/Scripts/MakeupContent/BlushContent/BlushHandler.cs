@@ -1,4 +1,5 @@
 using System.Collections;
+using HandContent;
 using MakeupContent;
 using Tools;
 using UI.Buttons;
@@ -17,6 +18,9 @@ namespace BlushContent
         [SerializeField] private Transform brushDefaultPosition;
         [SerializeField] private BlushTool _tool;
         [SerializeField] private Vector3 _offset;
+        [SerializeField] private Transform _faceBushPos;
+        [SerializeField] private Transform _posWiting;
+        [SerializeField] private DraggableHandler _draggableHandler;
 
         private Color _currentColor;
         private Color _defaultColor = Color.white;
@@ -40,12 +44,17 @@ namespace BlushContent
 
         public void ApplyBlush(int index)
         {
+            _draggableHandler.SetValue(false);
             Debug.Log("ApplyBlush" + index);
 
-            Cleaning();
+            _handController.PlayApplyAnimation(_faceBushPos.position - new Vector3(0, 100f, 0),
+                () =>
+                {
+                    Cleaning();
 
-            _blushes[index].SetActive(true);
-            StartCoroutine(ReturnDefault());
+                    _blushes[index].SetActive(true);
+                    StartCoroutine(ReturnDefault());
+                });
         }
 
         protected override void Cleaning()
@@ -62,15 +71,25 @@ namespace BlushContent
 
         private IEnumerator HandSequence(Vector3 colorButtonPosition)
         {
+            bool applyDone = false;
+            
             yield return _handController.MoveHandTo(brushDefaultPosition.position,
                 () => { _handController.PickUpObject(_brushTransform, _tool, _offset); });
 
             yield return _handController.MoveHandTo(colorButtonPosition,
                 () =>
                 {
-                    _handController.PlayApplyAnimation(colorButtonPosition - new Vector3(0, -50f, 0),
-                        () => { _brushTipRenderer.color = _currentColor; });
+                    _handController.PlayApplyAnimation(colorButtonPosition - new Vector3(0, 100f, 0),
+                        () => 
+                        {
+                            _brushTipRenderer.color = _currentColor;
+                            applyDone = true;
+                        });
                 });
+            
+            yield return new WaitUntil(() => applyDone);
+            yield return _handController.MoveHandTo(_posWiting.position);
+            _draggableHandler.SetValue(true);
         }
 
         private IEnumerator ReturnDefault()

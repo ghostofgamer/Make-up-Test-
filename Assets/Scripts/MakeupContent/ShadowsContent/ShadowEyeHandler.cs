@@ -1,4 +1,5 @@
 using System.Collections;
+using HandContent;
 using MakeupContent;
 using Tools;
 using UI.Buttons;
@@ -15,7 +16,10 @@ public class ShadowEyeHandler : MakeupHandler
     [SerializeField] private Image _brushTipRenderer;
     [SerializeField] private Transform _brushTransform;
     [SerializeField] private Vector3 _offset;
-
+    [SerializeField] private Transform _shadowFacePos;
+    [SerializeField] private Transform _posWiting;
+    [SerializeField] private DraggableHandler _draggableHandler;
+    
     private bool _isWorking = false;
     private Color _currentColor;
     private Color _defaultColor = Color.white;
@@ -38,12 +42,17 @@ public class ShadowEyeHandler : MakeupHandler
 
     public void ApplyShadow(int index)
     {
+        _draggableHandler.SetValue(false);
         Debug.Log("ApplyShadow" + index);
 
-        Cleaning();
+        _handController.PlayApplyAnimation(_shadowFacePos.position - new Vector3(0, 100f, 0),
+            () =>
+            {
+                Cleaning();
 
-        _shadows[index].SetActive(true);
-        StartCoroutine(ReturnDefault());
+                _shadows[index].SetActive(true);
+                StartCoroutine(ReturnDefault());
+            });
     }
 
     private void Init()
@@ -54,11 +63,25 @@ public class ShadowEyeHandler : MakeupHandler
 
     private IEnumerator HandSequence(Vector3 colorButtonPosition)
     {
+        bool applyDone = false;
+
         yield return _handController.MoveHandTo(_brushDefaultPosition.position,
             () => { _handController.PickUpObject(_brushTransform, _shadowTool, _offset); });
 
         yield return _handController.MoveHandTo(colorButtonPosition,
-            () => { _brushTipRenderer.color = _currentColor; });
+            () =>
+            {
+                _handController.PlayApplyAnimation(colorButtonPosition - new Vector3(0, 100f, 0),
+                    () =>
+                    {
+                        _brushTipRenderer.color = _currentColor;
+                        applyDone = true;
+                    });
+            });
+        
+        yield return new WaitUntil(() => applyDone);
+        yield return _handController.MoveHandTo(_posWiting.position);
+        _draggableHandler.SetValue(true);
     }
 
     private IEnumerator ReturnDefault()

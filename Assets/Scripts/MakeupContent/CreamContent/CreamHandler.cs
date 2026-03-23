@@ -1,4 +1,5 @@
 using System.Collections;
+using HandContent;
 using Tools;
 using UnityEngine;
 
@@ -13,6 +14,8 @@ namespace MakeupContent
         [SerializeField] private Transform _posWiting;
         [SerializeField] private Transform _defaultParent;
         [SerializeField] private Vector3 _offset;
+        [SerializeField] private Transform _faceAcnePosition;
+        [SerializeField] private DraggableHandler _draggableHandler;
         
         private bool _isWorking = false;
 
@@ -27,8 +30,19 @@ namespace MakeupContent
 
         public void ApplyCream()
         {
+            _draggableHandler.SetValue(false);
+            
+            _handController.PlayApplyAnimation(_faceAcnePosition.position - new Vector3(0, 100f, 0),
+                () =>
+                {
+                    _acne.SetActive(false);
+                    StartCoroutine(ReturnDefault());
+                });
+            
+            
+            /*
             _acne.SetActive(false);
-            StartCoroutine(ReturnDefault());
+            StartCoroutine(ReturnDefault());*/
         }
 
         protected override void Cleaning()
@@ -42,6 +56,7 @@ namespace MakeupContent
                 () => { _handController.PickUpObject(_creamTool.transform, _creamTool,_offset); });
             
             yield return _handController.MoveHandTo(_posWiting.position);
+            _draggableHandler.SetValue(true);
         }
         
         private IEnumerator ReturnDefault()

@@ -39,7 +39,6 @@ namespace HandContent
             {
                 Debug.Log("Кисть руки в зоне лица!");
                 _handController.Apply();
-                // Вызвать событие попадания
             }
             else
             {
