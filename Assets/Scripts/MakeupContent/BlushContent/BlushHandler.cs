@@ -16,6 +16,7 @@ namespace BlushContent
         [SerializeField] private HandController _handController;
         [SerializeField] private Transform brushDefaultPosition;
         [SerializeField] private BlushTool _tool;
+        [SerializeField] private Vector3 _offset;
 
         private Color _currentColor;
         private Color _defaultColor = Color.white;
@@ -28,7 +29,7 @@ namespace BlushContent
 
         public void OnColorSelected(Color color, Vector3 colorButtonPosition, int index)
         {
-            if (_isWorking)
+            if (_isWorking || _handController.IsWorking)
                 return;
 
             _isWorking = true;
@@ -62,10 +63,14 @@ namespace BlushContent
         private IEnumerator HandSequence(Vector3 colorButtonPosition)
         {
             yield return _handController.MoveHandTo(brushDefaultPosition.position,
-                () => { _handController.PickUpObject(_brushTransform, _tool); });
+                () => { _handController.PickUpObject(_brushTransform, _tool, _offset); });
 
             yield return _handController.MoveHandTo(colorButtonPosition,
-                () => { _brushTipRenderer.color = _currentColor; });
+                () =>
+                {
+                    _handController.PlayApplyAnimation(colorButtonPosition - new Vector3(0, -50f, 0),
+                        () => { _brushTipRenderer.color = _currentColor; });
+                });
         }
 
         private IEnumerator ReturnDefault()

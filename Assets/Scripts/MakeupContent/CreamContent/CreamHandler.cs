@@ -12,12 +12,13 @@ namespace MakeupContent
         [SerializeField] private HandController _handController;
         [SerializeField] private Transform _posWiting;
         [SerializeField] private Transform _defaultParent;
-
+        [SerializeField] private Vector3 _offset;
+        
         private bool _isWorking = false;
 
         public void ChooseCream()
         {
-            if (_isWorking)
+            if (_isWorking || _handController.IsWorking)
                 return;
 
             _isWorking = true;
@@ -38,7 +39,7 @@ namespace MakeupContent
         private IEnumerator HandSequence(Vector3 creamPos)
         {
             yield return _handController.MoveHandTo(creamPos,
-                () => { _handController.PickUpObject(_creamTool.transform, _creamTool); });
+                () => { _handController.PickUpObject(_creamTool.transform, _creamTool,_offset); });
             
             yield return _handController.MoveHandTo(_posWiting.position);
         }
