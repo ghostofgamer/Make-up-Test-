@@ -7,7 +7,6 @@ namespace UI.Buttons
     public abstract class AbstractButton : MonoBehaviour
     {
         private Button _button;
-        public event Action Clicked;
 
         private void Awake()
         {
@@ -24,14 +23,8 @@ namespace UI.Buttons
             _button.onClick.RemoveListener(OnClick);
         }
 
-        private void OnClick()
-        {
-            Click();
-            Clicked?.Invoke();
-        }
 
-        protected virtual void Click()
-        {
-        }
+        protected abstract void OnClick();
+
     }
 }

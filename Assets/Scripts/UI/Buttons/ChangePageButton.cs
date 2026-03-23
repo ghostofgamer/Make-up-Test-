@@ -14,8 +14,8 @@ namespace UI.Buttons
         {
             _bookPresenter = bookPresenter;
         }
-        
-        protected override void Click()
+
+        protected override void OnClick()
         {
             if (_bookPresenter != null)
                 _bookPresenter.ChangePage(this);
