@@ -1,4 +1,3 @@
-using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -8,21 +7,15 @@ namespace HandContent
     {
         [SerializeField] private RectTransform handTip;
         [SerializeField] private RectTransform faceZone;
-
-        public Tool CurrentTool { get; private set; }
+        [SerializeField] private HandController _handController;
+        
         private Canvas _canvas;
         private RectTransform _rectTransform;
 
         private void Awake()
         {
             _rectTransform = GetComponent<RectTransform>();
-            _canvas = GetComponentInParent<Canvas>(); // Canvas, для корректного расчета drag
-        }
-        
-        public void PickUpTool(Tool tool)
-        {
-            CurrentTool = tool;
-            CurrentTool.OnPickUp();
+            _canvas = GetComponentInParent<Canvas>();
         }
 
         public void OnDrag(PointerEventData eventData)
@@ -45,16 +38,13 @@ namespace HandContent
             if (RectTransformUtility.RectangleContainsScreenPoint(faceZone, handTipScreenPos, _canvas.worldCamera))
             {
                 Debug.Log("Кисть руки в зоне лица!");
-                CurrentTool.ApplyToFace();
+                _handController.Apply();
                 // Вызвать событие попадания
             }
             else
             {
                 Debug.Log("Кисть руки не в зоне лица");
             }
-            
-            CurrentTool.OnDrop();
-            CurrentTool = null;
         }
     }
 }
