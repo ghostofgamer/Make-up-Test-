@@ -1,17 +1,12 @@
-using System;
 using Enums;
 using UI.Buttons;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace BookContent
 {
     public class BookViewer : MonoBehaviour
     {
         [SerializeField] private GameObject[] _pages;
-
-        public event Action OnNextClicked;
-        public event Action OnPrevClicked;
 
         [field: SerializeField] public ChangePageButton[] ChangePageButtons { get; private set; }
         public int PageCount => _pages.Length;
@@ -20,13 +15,11 @@ namespace BookContent
         {
             foreach (var btn in ChangePageButtons)
             {
-                var unityButton = btn.GetComponent<Button>();
-
                 if (btn.ButtonType == ButtonType.PrevPageMake)
-                    unityButton.interactable = canGoPrev;
+                    btn.SetValue(canGoPrev);
 
                 if (btn.ButtonType == ButtonType.NextPageMake)
-                    unityButton.interactable = canGoNext;
+                    btn.SetValue(canGoNext);
             }
         }
 

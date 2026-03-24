@@ -11,7 +11,8 @@ namespace HandContent
         
         private Canvas _canvas;
         private RectTransform _rectTransform;
-
+        private Vector2 _handTipScreenPos;
+        
         private void Awake()
         {
             _rectTransform = GetComponent<RectTransform>();
@@ -25,16 +26,12 @@ namespace HandContent
 
         public void OnEndDrag(PointerEventData eventData)
         {
-            Vector2 handTipScreenPos = RectTransformUtility.WorldToScreenPoint(_canvas.worldCamera, handTip.position);
+            _handTipScreenPos = RectTransformUtility.WorldToScreenPoint(_canvas.worldCamera, handTip.position);
 
-            if (RectTransformUtility.RectangleContainsScreenPoint(faceZone, handTipScreenPos, _canvas.worldCamera))
-            {
+            if (RectTransformUtility.RectangleContainsScreenPoint(faceZone, _handTipScreenPos, _canvas.worldCamera))
                 _handController.Apply();
-            }
             else
-            {
                 Debug.Log("Кисть руки не в зоне лица");
-            }
         }
     }
 }

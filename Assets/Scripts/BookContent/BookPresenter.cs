@@ -12,7 +12,6 @@ namespace BookContent
         {
             _bookModel = bookModel;
             _bookViewer = bookViewer;
-            
             UpdateView();
         }
 

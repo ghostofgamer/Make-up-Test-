@@ -1623,6 +1623,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df1fa8f255193da4b9d0bea456071347, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BlushContent.BlushHandler
+  Targets:
+  - {fileID: 1938938361}
+  - {fileID: 944746995}
+  - {fileID: 750939551}
+  - {fileID: 2078826922}
+  - {fileID: 2122756729}
+  - {fileID: 1402531876}
+  - {fileID: 898391590}
+  - {fileID: 827754404}
+  - {fileID: 1194152917}
   _spongeHandler: {fileID: 1723595902}
   _draggableHandler: {fileID: 696547537}
   HandController: {fileID: 1709210437}
@@ -1636,22 +1646,13 @@ MonoBehaviour:
   - {fileID: 789660710}
   - {fileID: 353211326}
   - {fileID: 876517657}
-  _waitingPosition: {fileID: 0}
-  _blushes:
-  - {fileID: 1938938361}
-  - {fileID: 944746995}
-  - {fileID: 750939551}
-  - {fileID: 2078826922}
-  - {fileID: 2122756729}
-  - {fileID: 1402531876}
-  - {fileID: 898391590}
-  - {fileID: 827754404}
-  - {fileID: 1194152917}
+  _waitingPosition: {fileID: 1420081304}
+  _offset: {x: 0, y: 30, z: 0}
+  _targetDefaultValue: 0
   _brushTransform: {fileID: 2019981200}
   _brushTipRenderer: {fileID: 1739866379}
   brushDefaultPosition: {fileID: 392106843}
   _tool: {fileID: 2019981201}
-  _offset: {x: 0, y: 30, z: 0}
   _faceBushPos: {fileID: 1438776464}
 --- !u!1 &392106842
 GameObject:
@@ -2673,16 +2674,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2259147618bda7646ba0eabc65d417d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MakeupContent.CreamHandler
+  Targets:
+  - {fileID: 1596733217}
   _spongeHandler: {fileID: 1723595902}
   _draggableHandler: {fileID: 696547537}
   HandController: {fileID: 1709210437}
   _makeUpButtons: []
-  _waitingPosition: {fileID: 0}
-  _acne: {fileID: 1596733217}
+  _waitingPosition: {fileID: 1420081304}
+  _offset: {x: 0, y: 60, z: 0}
+  _targetDefaultValue: 1
   _defaultCreamPos: {fileID: 1225846404}
   _creamTool: {fileID: 1580337758}
   _defaultParent: {fileID: 488282579}
-  _offset: {x: 0, y: 60, z: 0}
   _faceAcnePosition: {fileID: 308817695}
 --- !u!1 &539784203
 GameObject:
@@ -4137,6 +4140,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb79b4cf357c1524397b62bc1f27923c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ShadowEyeHandler
+  Targets:
+  - {fileID: 1050106169}
+  - {fileID: 1296525653}
+  - {fileID: 1934345549}
+  - {fileID: 1481739884}
+  - {fileID: 2029087326}
+  - {fileID: 854689905}
+  - {fileID: 1924870474}
+  - {fileID: 1989854039}
+  - {fileID: 209245791}
   _spongeHandler: {fileID: 1723595902}
   _draggableHandler: {fileID: 696547537}
   HandController: {fileID: 1709210437}
@@ -4150,22 +4163,13 @@ MonoBehaviour:
   - {fileID: 642470507}
   - {fileID: 1703210740}
   - {fileID: 2066994925}
-  _waitingPosition: {fileID: 0}
-  _shadows:
-  - {fileID: 1050106169}
-  - {fileID: 1296525653}
-  - {fileID: 1934345549}
-  - {fileID: 1481739884}
-  - {fileID: 2029087326}
-  - {fileID: 854689905}
-  - {fileID: 1924870474}
-  - {fileID: 1989854039}
-  - {fileID: 209245791}
+  _waitingPosition: {fileID: 1420081304}
+  _offset: {x: 0, y: 35, z: 0}
+  _targetDefaultValue: 0
   _shadowTool: {fileID: 539784207}
   _brushDefaultPosition: {fileID: 1714404829}
   _brushTipRenderer: {fileID: 1706405387}
   _brushTransform: {fileID: 3456138}
-  _offset: {x: 0, y: 35, z: 0}
   _shadowFacePos: {fileID: 1306472760}
 --- !u!1 &827754404
 GameObject:
@@ -6978,6 +6982,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc7639b9bad70af49aab3d2c90ffa0e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MakeupContent.PomadeContent.PomadeHandler
+  Targets:
+  - {fileID: 1806561543}
+  - {fileID: 414995595}
+  - {fileID: 1474518740}
+  - {fileID: 34936397}
+  - {fileID: 1921006687}
+  - {fileID: 1129420835}
   _spongeHandler: {fileID: 1723595902}
   _draggableHandler: {fileID: 696547537}
   HandController: {fileID: 1709210437}
@@ -6989,21 +7000,8 @@ MonoBehaviour:
   - {fileID: 1767823176}
   - {fileID: 1730867005}
   _waitingPosition: {fileID: 1420081304}
-  _pomades:
-  - {fileID: 1806561543}
-  - {fileID: 414995595}
-  - {fileID: 1474518740}
-  - {fileID: 34936397}
-  - {fileID: 1921006687}
-  - {fileID: 1129420835}
-  _pomadeButtons:
-  - {fileID: 828963380}
-  - {fileID: 773051494}
-  - {fileID: 510700477}
-  - {fileID: 414574816}
-  - {fileID: 1767823176}
-  - {fileID: 1730867005}
   _offset: {x: 0, y: 100, z: 0}
+  _targetDefaultValue: 0
   _facePomadePosition: {fileID: 1571543739}
 --- !u!1 &1474518740
 GameObject:
