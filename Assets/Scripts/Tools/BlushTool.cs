@@ -1,4 +1,5 @@
-using BlushContent;
+using Cysharp.Threading.Tasks;
+using MakeupContent.BlushContent;
 using UnityEngine;
 
 namespace Tools
@@ -16,7 +17,7 @@ namespace Tools
         
         public override void ApplyToFace()
         {
-            _handler.ApplyBlush(_currentIndex);
+            _handler.ApplyBlush(_currentIndex).Forget();
         }
     }
 }

@@ -1,4 +1,4 @@
-using System.Collections;
+using Cysharp.Threading.Tasks;
 using HandContent;
 using Tools;
 using UI.Buttons;
@@ -9,13 +9,12 @@ namespace MakeupContent.PomadeContent
     public class PomadeHandler : MakeupHandler
     {
         [SerializeField] private GameObject[] _pomades;
-        [SerializeField] private HandController _handController;
         [SerializeField] private PomadeButton[] _pomadeButtons;
         [SerializeField] private Transform _waitingPosition;
         [SerializeField] private Vector3 _offset;
         [SerializeField] private Transform _facePomadePosition;
         [SerializeField] private DraggableHandler _draggableHandler;
-        
+
         private Transform _defaultPomadePosition;
         private bool _isWorking = false;
         private int _currentIndex;
@@ -29,29 +28,26 @@ namespace MakeupContent.PomadeContent
         public void OnColorSelected(int index, Vector3 colorButtonPosition, Transform pomadeDefaultPosition,
             PomadeTool pomadeTool)
         {
-            if (_isWorking || _handController.IsWorking)
+            if (!TryStartAction())
                 return;
 
             _currentPomadeTool = pomadeTool;
             _currentIndex = index;
             _defaultPomadePosition = pomadeDefaultPosition;
             _isWorking = true;
-            StartCoroutine(HandSequence(colorButtonPosition));
+             HandSequence(colorButtonPosition).Forget();
         }
 
-        public void ApplyPomade()
+        public async UniTask ApplyPomade()
         {
             _draggableHandler.SetValue(false);
-            Debug.Log("ApplyPomade");
-
-            _handController.PlayApplyAnimation(_facePomadePosition.position - new Vector3(0, 100f, 0),
-                () =>
-                {
-                    Cleaning();
-
-                    _pomades[_currentIndex].SetActive(true);
-                    StartCoroutine(ReturnDefault());
-                });
+            
+            await HandController.PlayApplyAnimation(_facePomadePosition.position - new Vector3(0, 100f, 0));
+            
+            Cleaning();
+            _pomades[_currentIndex].SetActive(true);
+            
+            await ReturnDefault();
         }
 
         private void Init()
@@ -60,21 +56,24 @@ namespace MakeupContent.PomadeContent
                 _pomadeButtons[i].SetIndex(i);
         }
 
-        private IEnumerator HandSequence(Vector3 colorButtonPosition)
+        private async UniTask HandSequence(Vector3 colorButtonPosition)
         {
-            yield return _handController.MoveHandTo(_defaultPomadePosition.position,
-                () => { _handController.PickUpObject(_currentPomadeTool.transform, _currentPomadeTool, _offset); });
-
-            yield return _handController.MoveHandTo(_waitingPosition.position);
-            _draggableHandler.SetValue(true);
+            await MoveHandPickApply(
+                _defaultPomadePosition,    // позиция инструмента
+                _currentPomadeTool.transform,
+                _currentPomadeTool,
+                _offset,
+                _waitingPosition,          // позиция ожидания
+                _draggableHandler
+            );
         }
-
-        private IEnumerator ReturnDefault()
+        
+        private async UniTask ReturnDefault()
         {
-            yield return _handController.MoveHandTo(_defaultPomadePosition.position,
-                () => { _handController.DropItem(_defaultPomadePosition); });
-
-            yield return _handController.ReturnHand(() => { _isWorking = false; });
+            await ReturnTool(
+                _defaultPomadePosition, // позиция по умолчанию
+                _defaultPomadePosition  // родитель для возврата инструмента
+            );
         }
 
         protected override void Cleaning()

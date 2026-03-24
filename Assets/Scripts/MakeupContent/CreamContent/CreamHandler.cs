@@ -1,48 +1,42 @@
-using System.Collections;
+using Cysharp.Threading.Tasks;
 using HandContent;
 using Tools;
 using UnityEngine;
 
-namespace MakeupContent
+namespace MakeupContent.CreamContent
 {
     public class CreamHandler : MakeupHandler
     {
         [SerializeField] private GameObject _acne;
         [SerializeField] private Transform _defaultCreamPos;
         [SerializeField] private CreamTool _creamTool;
-        [SerializeField] private HandController _handController;
         [SerializeField] private Transform _posWiting;
         [SerializeField] private Transform _defaultParent;
         [SerializeField] private Vector3 _offset;
         [SerializeField] private Transform _faceAcnePosition;
         [SerializeField] private DraggableHandler _draggableHandler;
-        
+
         private bool _isWorking = false;
 
         public void ChooseCream()
         {
-            if (_isWorking || _handController.IsWorking)
+            if (!TryStartAction())
                 return;
 
             _isWorking = true;
-            StartCoroutine(HandSequence(_defaultCreamPos.position));
+            HandSequence(_defaultCreamPos.position).Forget();
         }
 
-        public void ApplyCream()
+
+        public async UniTask ApplyCream()
         {
             _draggableHandler.SetValue(false);
+
+            await HandController.PlayApplyAnimation(_faceAcnePosition.position - new Vector3(0, 100f, 0));
             
-            _handController.PlayApplyAnimation(_faceAcnePosition.position - new Vector3(0, 100f, 0),
-                () =>
-                {
-                    _acne.SetActive(false);
-                    StartCoroutine(ReturnDefault());
-                });
-            
-            
-            /*
             _acne.SetActive(false);
-            StartCoroutine(ReturnDefault());*/
+            
+             await ReturnDefault();
         }
 
         protected override void Cleaning()
@@ -50,23 +44,25 @@ namespace MakeupContent
             _acne.SetActive(true);
         }
 
-        private IEnumerator HandSequence(Vector3 creamPos)
+        private async UniTask HandSequence(Vector3 creamPos)
         {
-            yield return _handController.MoveHandTo(creamPos,
-                () => { _handController.PickUpObject(_creamTool.transform, _creamTool,_offset); });
-            
-            yield return _handController.MoveHandTo(_posWiting.position);
-            _draggableHandler.SetValue(true);
+            await MoveHandPickApply(
+                _defaultCreamPos,      // позиция инструмента
+                _creamTool.transform,  // инструмент
+                _creamTool,
+                Vector3.zero,          // offset
+                _posWiting,            // позиция ожидания
+                _draggableHandler
+                // applyTargetPos = null → просто берём и идём
+            );
         }
-        
-        private IEnumerator ReturnDefault()
-        {
-            yield return _handController.MoveHandTo(_defaultCreamPos.position, () =>
-            {
-                _handController.DropItem(_defaultParent);
-            });
 
-            yield return _handController.ReturnHand(() => { _isWorking = false; });
+        private async UniTask ReturnDefault()
+        {
+            await ReturnTool(
+                _defaultCreamPos,
+                _defaultCreamPos
+            );
         }
     }
 }

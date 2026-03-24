@@ -1624,6 +1624,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BlushContent.BlushHandler
   _spongeHandler: {fileID: 1723595902}
+  HandController: {fileID: 1709210437}
   _blushes:
   - {fileID: 1938938361}
   - {fileID: 944746995}
@@ -1646,12 +1647,12 @@ MonoBehaviour:
   - {fileID: 876517657}
   _brushTransform: {fileID: 2019981200}
   _brushTipRenderer: {fileID: 1739866379}
-  _handController: {fileID: 1709210437}
   brushDefaultPosition: {fileID: 392106843}
   _tool: {fileID: 2019981201}
   _offset: {x: 0, y: 30, z: 0}
   _faceBushPos: {fileID: 1438776464}
   _posWiting: {fileID: 1420081304}
+  _draggableHandler: {fileID: 696547537}
 --- !u!1 &392106842
 GameObject:
   m_ObjectHideFlags: 0
@@ -2673,14 +2674,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MakeupContent.CreamHandler
   _spongeHandler: {fileID: 1723595902}
+  HandController: {fileID: 1709210437}
   _acne: {fileID: 1596733217}
   _defaultCreamPos: {fileID: 1225846404}
   _creamTool: {fileID: 1580337758}
-  _handController: {fileID: 1709210437}
   _posWiting: {fileID: 1420081304}
   _defaultParent: {fileID: 488282579}
   _offset: {x: 0, y: 60, z: 0}
   _faceAcnePosition: {fileID: 308817695}
+  _draggableHandler: {fileID: 696547537}
 --- !u!1 &539784203
 GameObject:
   m_ObjectHideFlags: 0
@@ -4135,6 +4137,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ShadowEyeHandler
   _spongeHandler: {fileID: 1723595902}
+  HandController: {fileID: 1709210437}
   _shadows:
   - {fileID: 1050106169}
   - {fileID: 1296525653}
@@ -4156,13 +4159,13 @@ MonoBehaviour:
   - {fileID: 1703210740}
   - {fileID: 2066994925}
   _shadowTool: {fileID: 539784207}
-  _handController: {fileID: 1709210437}
   _brushDefaultPosition: {fileID: 1714404829}
   _brushTipRenderer: {fileID: 1706405387}
   _brushTransform: {fileID: 3456138}
   _offset: {x: 0, y: 35, z: 0}
   _shadowFacePos: {fileID: 1306472760}
   _posWiting: {fileID: 1420081304}
+  _draggableHandler: {fileID: 696547537}
 --- !u!1 &827754404
 GameObject:
   m_ObjectHideFlags: 0
@@ -6975,6 +6978,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MakeupContent.PomadeContent.PomadeHandler
   _spongeHandler: {fileID: 1723595902}
+  HandController: {fileID: 1709210437}
   _pomades:
   - {fileID: 1806561543}
   - {fileID: 414995595}
@@ -6982,7 +6986,6 @@ MonoBehaviour:
   - {fileID: 34936397}
   - {fileID: 1921006687}
   - {fileID: 1129420835}
-  _handController: {fileID: 1709210437}
   _pomadeButtons:
   - {fileID: 828963380}
   - {fileID: 773051494}
@@ -6993,6 +6996,7 @@ MonoBehaviour:
   _waitingPosition: {fileID: 1420081304}
   _offset: {x: 0, y: 100, z: 0}
   _facePomadePosition: {fileID: 1571543739}
+  _draggableHandler: {fileID: 696547537}
 --- !u!1 &1474518740
 GameObject:
   m_ObjectHideFlags: 0
@@ -8162,6 +8166,7 @@ MonoBehaviour:
   _handTransform: {fileID: 1070727829}
   _defaultPos: {fileID: 1829391025}
   _moveSpeed: 600
+  _moveDuration: 0.5
 --- !u!1 &1714404828
 GameObject:
   m_ObjectHideFlags: 0

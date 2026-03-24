@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using MakeupContent.PomadeContent;
 using UnityEngine;
 
@@ -9,7 +10,7 @@ namespace Tools
         
         public override void ApplyToFace()
         {
-            _pomadeHandler.ApplyPomade();
+            _pomadeHandler.ApplyPomade().Forget();
         }
     }
 }

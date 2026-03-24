@@ -1,4 +1,6 @@
+using Cysharp.Threading.Tasks;
 using MakeupContent;
+using MakeupContent.CreamContent;
 using UnityEngine;
 
 namespace Tools
@@ -9,7 +11,7 @@ namespace Tools
 
         public override void ApplyToFace()
         {
-            _creamHandler.ApplyCream();
+            _creamHandler.ApplyCream().Forget();
         }
     }
 }

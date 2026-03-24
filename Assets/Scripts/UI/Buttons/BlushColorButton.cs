@@ -1,4 +1,4 @@
-using BlushContent;
+using MakeupContent.BlushContent;
 using UnityEngine;
 
 namespace UI.Buttons

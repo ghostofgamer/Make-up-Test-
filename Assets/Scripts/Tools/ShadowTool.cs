@@ -1,3 +1,5 @@
+using Cysharp.Threading.Tasks;
+using MakeupContent.ShadowsContent;
 using UnityEngine;
 
 namespace Tools
@@ -15,7 +17,7 @@ namespace Tools
         
         public override void ApplyToFace()
         {
-            _shadowHandler.ApplyShadow(_currentIndex);
+            _shadowHandler.ApplyShadow(_currentIndex).Forget();
         }
     }
 }

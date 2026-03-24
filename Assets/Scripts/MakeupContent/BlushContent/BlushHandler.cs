@@ -1,12 +1,11 @@
-using System.Collections;
+using Cysharp.Threading.Tasks;
 using HandContent;
-using MakeupContent;
 using Tools;
 using UI.Buttons;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace BlushContent
+namespace MakeupContent.BlushContent
 {
     public class BlushHandler : MakeupHandler
     {
@@ -14,7 +13,6 @@ namespace BlushContent
         [SerializeField] private BlushColorButton[] _blushButtons;
         [SerializeField] private Transform _brushTransform;
         [SerializeField] private Image _brushTipRenderer;
-        [SerializeField] private HandController _handController;
         [SerializeField] private Transform brushDefaultPosition;
         [SerializeField] private BlushTool _tool;
         [SerializeField] private Vector3 _offset;
@@ -33,28 +31,26 @@ namespace BlushContent
 
         public void OnColorSelected(Color color, Vector3 colorButtonPosition, int index)
         {
-            if (_isWorking || _handController.IsWorking)
+            if (!TryStartAction())
                 return;
 
             _isWorking = true;
             _currentColor = color;
             _tool.SetIndex(index);
-            StartCoroutine(HandSequence(colorButtonPosition));
+            HandSequence(colorButtonPosition).Forget();
         }
 
-        public void ApplyBlush(int index)
+        public async UniTask ApplyBlush(int index)
         {
             _draggableHandler.SetValue(false);
             Debug.Log("ApplyBlush" + index);
 
-            _handController.PlayApplyAnimation(_faceBushPos.position - new Vector3(0, 100f, 0),
-                () =>
-                {
-                    Cleaning();
+            await HandController.PlayApplyAnimation(_faceBushPos.position - new Vector3(0, 100f, 0));
 
-                    _blushes[index].SetActive(true);
-                    StartCoroutine(ReturnDefault());
-                });
+            Cleaning();
+            _blushes[index].SetActive(true);
+
+            await ReturnDefault();
         }
 
         protected override void Cleaning()
@@ -69,38 +65,28 @@ namespace BlushContent
                 _blushButtons[i].SetIndex(i);
         }
 
-        private IEnumerator HandSequence(Vector3 colorButtonPosition)
+        private async UniTask HandSequence(Vector3 colorButtonPosition)
         {
-            bool applyDone = false;
-            
-            yield return _handController.MoveHandTo(brushDefaultPosition.position,
-                () => { _handController.PickUpObject(_brushTransform, _tool, _offset); });
-
-            yield return _handController.MoveHandTo(colorButtonPosition,
-                () =>
-                {
-                    _handController.PlayApplyAnimation(colorButtonPosition - new Vector3(0, 100f, 0),
-                        () => 
-                        {
-                            _brushTipRenderer.color = _currentColor;
-                            applyDone = true;
-                        });
-                });
-            
-            yield return new WaitUntil(() => applyDone);
-            yield return _handController.MoveHandTo(_posWiting.position);
-            _draggableHandler.SetValue(true);
+            await MoveHandPickApply(
+                brushDefaultPosition, // позиция инструмента
+                _brushTransform, // трансформ кисти
+                _tool, // инструмент
+                _offset,
+                _posWiting, // позиция ожидания
+                _draggableHandler,
+                colorButtonPosition, // позиция применения
+                _brushTipRenderer,
+                _currentColor
+            );
         }
 
-        private IEnumerator ReturnDefault()
+        private async UniTask ReturnDefault()
         {
-            yield return _handController.MoveHandTo(brushDefaultPosition.position, () =>
-            {
-                _brushTipRenderer.color = _defaultColor;
-                _handController.DropItem(brushDefaultPosition);
-            });
-
-            yield return _handController.ReturnHand(() => { _isWorking = false; });
+            await ReturnTool(
+                brushDefaultPosition, // позиция по умолчанию
+                brushDefaultPosition,
+                (() => _brushTipRenderer.color = _defaultColor) // родитель для возврата инструмента
+            );
         }
     }
 }
