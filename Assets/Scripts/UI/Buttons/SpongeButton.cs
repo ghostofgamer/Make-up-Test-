@@ -1,4 +1,4 @@
-using SpongeContent;
+using MakeupContent.SpongeContent;
 using UnityEngine;
 
 namespace UI.Buttons

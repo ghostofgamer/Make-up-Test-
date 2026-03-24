@@ -3,7 +3,7 @@ using UnityEngine.EventSystems;
 
 namespace HandContent
 {
-    public class DraggableHand : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler
+    public class DraggableHand : MonoBehaviour, IDragHandler, IEndDragHandler
     {
         [SerializeField] private RectTransform handTip;
         [SerializeField] private RectTransform faceZone;
@@ -20,24 +20,15 @@ namespace HandContent
 
         public void OnDrag(PointerEventData eventData)
         {
-            Debug.Log("OnDrag!");
             _rectTransform.anchoredPosition += eventData.delta / _canvas.scaleFactor;
-        }
-
-        public void OnBeginDrag(PointerEventData eventData)
-        {
-            Debug.Log("OnBeginDrag!");
         }
 
         public void OnEndDrag(PointerEventData eventData)
         {
-            Debug.Log("OnEndDrags");
-
             Vector2 handTipScreenPos = RectTransformUtility.WorldToScreenPoint(_canvas.worldCamera, handTip.position);
 
             if (RectTransformUtility.RectangleContainsScreenPoint(faceZone, handTipScreenPos, _canvas.worldCamera))
             {
-                Debug.Log("Кисть руки в зоне лица!");
                 _handController.Apply();
             }
             else
