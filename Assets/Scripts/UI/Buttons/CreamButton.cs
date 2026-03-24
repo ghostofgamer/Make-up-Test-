@@ -1,4 +1,3 @@
-using MakeupContent;
 using MakeupContent.CreamContent;
 using UnityEngine;
 

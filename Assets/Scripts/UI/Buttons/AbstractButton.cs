@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -22,9 +21,7 @@ namespace UI.Buttons
         {
             Button.onClick.RemoveListener(OnClick);
         }
-
-
+        
         protected abstract void OnClick();
-
     }
 }

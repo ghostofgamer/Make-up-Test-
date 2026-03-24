@@ -7,11 +7,11 @@ namespace UI.Buttons
     public class PomadeButton : MakeUpButton
     {
         [SerializeField] private PomadeHandler _pomadeHandler;
-        [SerializeField] private PomadeTool _pomadeTool;
+        [SerializeField] private MakeUpTool _makeUpTool;
         
         protected override void OnClick()
         {
-            _pomadeHandler.OnColorSelected(Index, transform, _pomadeTool);
+            _pomadeHandler.OnColorSelected(Index, transform, _makeUpTool);
         }
     }
 }

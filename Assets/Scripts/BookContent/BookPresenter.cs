@@ -29,7 +29,7 @@ namespace BookContent
 
             UpdateView();
         }
-        
+
         private void UpdateView()
         {
             _bookViewer.ShowPage(_bookModel.CurrentPage);

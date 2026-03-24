@@ -1,5 +1,4 @@
 using Cysharp.Threading.Tasks;
-using Tools;
 using UnityEngine;
 
 namespace MakeupContent.CreamContent
@@ -7,7 +6,6 @@ namespace MakeupContent.CreamContent
     public class CreamHandler : MakeupHandler
     {
         [SerializeField] private Transform _defaultCreamPos;
-        [SerializeField] private CreamTool _creamTool;
         [SerializeField] private Transform _defaultParent;
         [SerializeField] private Transform _faceAcnePosition;
 
@@ -16,10 +14,10 @@ namespace MakeupContent.CreamContent
             if (!TryStartAction())
                 return;
 
-            UseToolAsync(_defaultCreamPos, _creamTool.transform, _creamTool).Forget();
+            UseToolAsync(_defaultCreamPos, ApplyTool.transform, ApplyTool).Forget();
         }
 
-        public async UniTask ApplyCream()
+        public override async UniTask ApplyMakeUpAsync()
         {
             await ApplyToolEffect(_faceAcnePosition, Targets[0], _defaultCreamPos, false);
         }

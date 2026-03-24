@@ -1,16 +1,17 @@
-using UI.Buttons;
-
-public abstract class MakeUpButton : AbstractButton
+namespace UI.Buttons
 {
-    protected int Index { get; private set; }
+    public abstract class MakeUpButton : AbstractButton
+    {
+        protected int Index { get; private set; }
 
-    public void SetIndex(int index)
-    {
-        Index = index;
-    }
+        public void SetIndex(int index)
+        {
+            Index = index;
+        }
     
-    protected override void OnClick()
-    {
+        protected override void OnClick()
+        {
        
+        }
     }
 }

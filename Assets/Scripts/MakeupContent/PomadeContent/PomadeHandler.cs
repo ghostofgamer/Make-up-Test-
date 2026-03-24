@@ -9,23 +9,23 @@ namespace MakeupContent.PomadeContent
         [SerializeField] private Transform _facePomadePosition;
 
         private Transform _defaultPomadePosition;
-        private PomadeTool _currentPomadeTool;
+        private MakeUpTool _currentPomadeTool;
         private int _currentIndex;
         
         public void OnColorSelected(int index, Transform pomadeDefaultPosition,
-            PomadeTool pomadeTool)
+            MakeUpTool makeUpTool)
         {
             if (!TryStartAction())
                 return;
-
-            _currentPomadeTool = pomadeTool;
+            
+            _currentPomadeTool = makeUpTool;
             _currentIndex = index;
             _defaultPomadePosition = pomadeDefaultPosition;
             
             UseToolAsync(_defaultPomadePosition, _currentPomadeTool.transform, _currentPomadeTool).Forget();
         }
 
-        public async UniTask ApplyPomade()
+        public override  async UniTask ApplyMakeUpAsync()
         {
             await ApplyToolEffect(_facePomadePosition, Targets[_currentIndex], _defaultPomadePosition);
         }

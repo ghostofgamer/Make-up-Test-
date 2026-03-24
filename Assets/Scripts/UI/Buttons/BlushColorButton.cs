@@ -8,7 +8,6 @@ namespace UI.Buttons
         [SerializeField] private Color _color;
         [SerializeField] private BlushHandler _blushHandler;
         
-        
         protected override void OnClick()
         {
             _blushHandler.OnColorSelected(_color, transform.position, Index);

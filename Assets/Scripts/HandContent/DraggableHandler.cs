@@ -6,9 +6,6 @@ namespace HandContent
     {
         [SerializeField] private DraggableHand _draggableHand;
 
-        public void SetValue(bool value)
-        {
-            _draggableHand.enabled = value;
-        }
+        public void SetValue(bool value) => _draggableHand.enabled = value;
     }
 }

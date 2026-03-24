@@ -1,5 +1,4 @@
 using Cysharp.Threading.Tasks;
-using Tools;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,7 +9,6 @@ namespace MakeupContent.BlushContent
         [SerializeField] private Transform _brushTransform;
         [SerializeField] private Image _brushTipRenderer;
         [SerializeField] private Transform brushDefaultPosition;
-        [SerializeField] private BlushTool _tool;
         [SerializeField] private Transform _faceBushPos;
 
         private Color _currentColor;
@@ -25,11 +23,11 @@ namespace MakeupContent.BlushContent
             _currentColor = color;
             _currentIndex = index;
             
-            UseToolAsync(brushDefaultPosition, _brushTransform, _tool, colorButtonPosition,
+            UseToolAsync(brushDefaultPosition, _brushTransform, ApplyTool, colorButtonPosition,
                 _brushTipRenderer, _currentColor).Forget();
         }
 
-        public async UniTask ApplyBlush()
+        public override async UniTask ApplyMakeUpAsync()
         {
             await ApplyToolEffect(_faceBushPos, Targets[_currentIndex], brushDefaultPosition, true,
                 () => _brushTipRenderer.color = _defaultColor);
